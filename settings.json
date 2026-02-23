@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "model": "opus",
   "statusLine": {
     "type": "command",
@@ -17,8 +20,5 @@
     "bot-automation@skills": true,
     "productivity@skills": true
   },
-  "alwaysThinkingEnabled": true,
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  }
+  "alwaysThinkingEnabled": true
 }
