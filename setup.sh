@@ -34,4 +34,6 @@ echo "Installing third-party plugins..."
 claude plugin install humanizer@anthropic-agent-skills || \
   echo "  Warning: failed to install humanizer"
 
+echo ""
 echo "Done. Restart Claude Code to load new plugins."
+echo "Then run /setup-scripts to generate helper scripts."

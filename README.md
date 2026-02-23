@@ -9,7 +9,6 @@ Config lives here; skills live in the
 
 - **CLAUDE.md** -- global preferences, coding standards, skill dispatch rules
 - **commands/** -- 9 short slash commands (<20 lines each)
-- **scripts/** -- 15 helper scripts for org automation
 - **settings.json** -- model, status line, enabled plugins
 - **settings.local.json** -- permissions and sandbox config
 - **setup.sh** -- registers marketplace and installs plugins
@@ -25,6 +24,9 @@ Symlinks are created by `dotfiles/scripts/link.sh`.
 ```bash
 # After cloning dotfiles and running link.sh:
 ~/.claude/setup.sh
+
+# After restarting Claude Code, generate helper scripts:
+# /setup-scripts
 ```
 
 ## Commands

@@ -10,10 +10,6 @@
 !commands/
 !commands/**
 
-# Scripts
-!scripts/
-!scripts/**
-
 # Settings (preferences and permissions)
 !settings.json
 !settings.local.json
