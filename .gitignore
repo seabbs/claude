@@ -1,25 +1,22 @@
 # Ignore everything
 *
 
-# Exception for CLAUDE.md file
+# Config files
 !CLAUDE.md
+!README.md
+!.gitignore
 
-# Exception for commands and agents directories
+# Commands
 !commands/
 !commands/**
-!agents/
-!agents/**
 
-# Exception for skills directory
-!skills/
-!skills/**
+# Scripts
+!scripts/
+!scripts/**
 
-# Exception for settings
+# Settings (preferences and permissions)
 !settings.json
 !settings.local.json
 
-# Exception for README
-!README.md
-
-# Exception for git config
-!.gitignore
+# Plugin setup
+!setup.sh

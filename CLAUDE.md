@@ -24,6 +24,7 @@ Always respond in UK English
 ## Workflow
 - Use parallel subagents where possible, each with relevant /skills in their prompt
 - Before implementing new features, search codebase for existing similar functionality
+- Follow Red/Green TDD: write a failing test, make it pass, refactor
 - Run tests before committing code changes
 - Run language-standard linters on changed files before committing and fix all issues:
   - R: `lintr::lint()` on each changed `.R` file (respect project `.lintr` config)
