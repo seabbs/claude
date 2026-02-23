@@ -13,3 +13,7 @@
 # Scripts
 !link.sh
 !setup.sh
+
+# CI
+!.github/
+!.github/**
