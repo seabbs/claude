@@ -10,9 +10,6 @@
 !commands/
 !commands/**
 
-# Settings (preferences and permissions)
-!settings.json
-!settings.local.json
-
-# Plugin setup
+# Scripts
+!link.sh
 !setup.sh

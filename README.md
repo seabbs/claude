@@ -6,12 +6,14 @@ Skills live in the [`seabbs/skills`](https://github.com/seabbs/skills) marketpla
 ## Contents
 
 ```
-CLAUDE.md            # Global instructions (identity, workflow, style)
-commands/            # 9 slash commands
-settings.json        # Preferences (model, status line, enabled plugins)
-settings.local.json  # Permissions and sandbox config
-setup.sh             # Marketplace registration + plugin installation
+CLAUDE.md   # Global instructions (identity, workflow, style)
+commands/   # 9 slash commands
+link.sh     # Symlink config into ~/.claude/
+setup.sh    # Marketplace registration + plugin installation
 ```
+
+Settings files (`settings.json`, `settings.local.json`) are managed
+by Claude Code at runtime and not tracked.
 
 ## Setup
 
@@ -34,11 +36,8 @@ dotfiles/scripts/link.sh
 ### What gets symlinked
 
 ```
-~/.claude/CLAUDE.md           -> dotfiles/claude/CLAUDE.md
-~/.claude/commands/           -> dotfiles/claude/commands
-~/.claude/settings.json       -> dotfiles/claude/settings.json
-~/.claude/settings.local.json -> dotfiles/claude/settings.local.json
-~/.claude/setup.sh            -> dotfiles/claude/setup.sh
+~/.claude/CLAUDE.md  -> dotfiles/claude/CLAUDE.md
+~/.claude/commands/  -> dotfiles/claude/commands
 ```
 
 ## Commands
