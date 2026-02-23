@@ -1,0 +1,16 @@
+name: Notify dotfiles
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger dotfiles submodule update
+        run: |
+          gh api repos/seabbs/dotfiles/dispatches \
+            -f event_type=claude-updated
+        env:
+          GH_TOKEN: ${{ secrets.DOTFILES_DISPATCH_TOKEN }}
