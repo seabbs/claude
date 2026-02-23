@@ -24,7 +24,9 @@ Always respond in UK English
 ## Workflow
 - Use parallel subagents where possible, each with relevant /skills in their prompt
 - Before implementing new features, search codebase for existing similar functionality
+- Follow Red/Green TDD: write a failing test, make it pass, refactor
 - Run tests before committing code changes
+- Run the language-standard linter on changed files before committing and fix all issues
 - Ask clarifying questions when requirements are ambiguous rather than making assumptions
 - If a Taskfile.yml exists, use it for common tasks (build, test, lint, etc.) via the `task` command
 - On project setup, create a Taskfile.yml to manage common development tasks
