@@ -32,12 +32,12 @@ Always respond in UK English
 - On project setup, create a Taskfile.yml to manage common development tasks
 - Subagent skill mapping: R work → /r-development, Julia → /julia-development, Stan → /stan-development, code changes → /lint + /test, code review → /review, GitHub issues → /issue-summary, statistical models → /stats-implement + /stats-review, academic revision → /academic-revise, literature → /literature-search, verification → /check-requirements
 
-## Markdown
-- One sentence per line
+## Prose formats (Markdown, Quarto, TeX)
+- One sentence per line; no 80-char wrapping
 - Use `@placeholder` for missing references
 
 ## All languages
-- Max 80 chars per line (except Markdown, Quarto, and .qmd where one sentence per line takes priority)
+- Max 80 chars per line for code
 - No trailing whitespace
 - No spurious blank lines
 
