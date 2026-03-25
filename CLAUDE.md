@@ -24,13 +24,15 @@ Always respond in UK English
 ## Workflow
 - Use parallel subagents where possible, each with relevant /skills in their prompt
 - Before implementing new features, search codebase for existing similar functionality
-- Follow Red/Green TDD: write a failing test, make it pass, refactor
-- Run tests before committing code changes
+- Follow Red/Green TDD: write a failing test, commit, make it pass, commit, refactor, commit
+- Commit after each small unit of completed work without waiting to be asked
+- Run tests before committing code changes (failing tests are expected for red TDD commits)
 - Run the language-standard linter on changed files before committing and fix all issues
 - Ask clarifying questions when requirements are ambiguous rather than making assumptions
 - If a Taskfile.yml exists, use it for common tasks (build, test, lint, etc.) via the `task` command
 - On project setup, create a Taskfile.yml to manage common development tasks
 - Subagent skill mapping: R work → /r-development, Julia → /julia-development, Stan → /stan-development, code changes → /lint + /test, code review → /review, GitHub issues → /issue-summary, statistical models → /stats-implement + /stats-review, academic revision → /academic-revise, literature → /literature-search, verification → /check-requirements
+- When reading symlinked files, use the local path within the project (e.g. `context/file.R`) not the resolved target path
 
 ## Prose formats (Markdown, Quarto, TeX)
 - One sentence per line; no 80-char wrapping
