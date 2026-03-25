@@ -25,6 +25,7 @@ Always respond in UK English
 - Use parallel subagents where possible, each with relevant /skills in their prompt
 - Before implementing new features, search codebase for existing similar functionality
 - Follow Red/Green TDD: write a failing test, make it pass, refactor
+- Commit after each small unit of completed work without waiting to be asked
 - Run tests before committing code changes
 - Run the language-standard linter on changed files before committing and fix all issues
 - Ask clarifying questions when requirements are ambiguous rather than making assumptions
