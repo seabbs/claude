@@ -160,10 +160,6 @@
       "Bash(gh run watch:*)",
       "Bash(gh workflow list:*)",
       "Bash(gh workflow view:*)",
-      "Bash(brew install:*)",
-      "Bash(brew upgrade:*)",
-      "Bash(pip3 install:*)",
-      "Bash(pipx install:*)",
       "Bash(launchctl load:*)",
       "Bash(launchctl list:*)"
     ]
