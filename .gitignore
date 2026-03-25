@@ -4,6 +4,7 @@
 # Config files
 !CLAUDE.md
 !README.md
+!settings.json
 !.gitignore
 
 # Commands

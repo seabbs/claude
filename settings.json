@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "model": "opus[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(basename \"$cwd\"); tokens=$(echo \"$input\" | jq -r '.context.tokens_loaded // 0'); exceeds=$(echo \"$input\" | jq -r '.context.exceeds_200k_tokens // false'); if [ -d \"$cwd/.git\" ]; then branch=$(cd \"$cwd\" && git -c core.useBuiltinFSMonitor=false branch --show-current 2>/dev/null); git_info=\" on ${branch:-unknown}\"; else git_info=\"\"; fi; if [ \"$tokens\" != \"0\" ] && [ \"$tokens\" != \"null\" ]; then tokens_k=$((tokens / 1000)); if [ \"$exceeds\" = \"true\" ]; then context_info=\" | ${tokens_k}k tokens (!)\"; else context_info=\" | ${tokens_k}k tokens\"; fi; else context_info=\"\"; fi; printf \"${dir}${git_info} | ${model}${context_info}\""
+  },
+  "enabledPlugins": {
+    "feature-dev@claude-code-plugins": true,
+    "research-academic@skills": true,
+    "lang-r@skills": true,
+    "lang-julia@skills": true,
+    "lang-stan@skills": true,
+    "dev-workflow@skills": true,
+    "github-ops@skills": true,
+    "org-management@skills": true,
+    "bot-automation@skills": true,
+    "productivity@skills": true
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "voiceEnabled": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r 'if (.tool_input.command | test(\"gh pr create\")) then (if (.tool_input.command | test(\"# checks-passed\")) then empty else \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"deny\\\",\\\"permissionDecisionReason\\\":\\\"Before creating a PR, run full package checks via Taskfile or project equivalents: task format, task lint, task test, and task check (if available). Fix all issues. Once everything passes, retry with a trailing # checks-passed comment.\\\"}}\" end) else empty end'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r 'if (.tool_input.command | test(\"git commit\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"POST-COMMIT: If you have not run tests and formatters recently, do so now before continuing (task test, task lint, task format, or project equivalents). Keep commits regular but keep tests green.\\\"}}\" else empty end'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r 'if (.tool_input.command | test(\"git push|gh pr create\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Launch a background agent (run_in_background: true) to monitor CI. The agent should run gh pr checks every 3 minutes for up to 30 minutes. If a check fails, report back. Do NOT block the main conversation.\\\"}}\" else empty end'"
+          }
+        ]
+      }
+    ]
+  }
+}

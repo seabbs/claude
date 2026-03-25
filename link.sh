@@ -16,8 +16,9 @@ link() {
 
 echo "Linking Claude Code config from $CLAUDE_DIR"
 
-link "CLAUDE.md"  "$HOME/.claude/CLAUDE.md"
-link "commands"   "$HOME/.claude/commands"
+link "CLAUDE.md"      "$HOME/.claude/CLAUDE.md"
+link "settings.json"  "$HOME/.claude/settings.json"
+link "commands"        "$HOME/.claude/commands"
 
 echo "Done."
 echo "Run ~/.claude/setup.sh to install plugins."
