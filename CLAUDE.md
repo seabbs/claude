@@ -21,6 +21,8 @@ Always respond in UK English
 - Create GitHub issues for follow-up work discovered during implementation
 - When creating issues or PRs as bot, add a note at the end: "This was opened by a bot. Please ping @seabbs for any questions."
 - Run coderabbit review with: coderabbit review --plain
+- For line-specific PR review comments use `gh api repos/{owner}/{repo}/pulls/{pr}/comments -f path=file -f body=comment -f commit_id=sha -f line=N -f side=RIGHT`
+- When reviewing PRs, fetch inline review comments with `gh api repos/{owner}/{repo}/pulls/{pr}/comments` to see and respond to line-specific feedback
 
 ## Workflow
 - Use parallel subagents where possible, each with relevant /skills in their prompt
