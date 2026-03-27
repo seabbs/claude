@@ -223,7 +223,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'if (.tool_input.command | test(\"git push|gh pr create\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Launch a background agent (run_in_background: true) to monitor CI. The agent should run gh pr checks every 3 minutes for up to 30 minutes. If a check fails, report back. Do NOT block the main conversation.\\\"}}\" else empty end'"
+            "command": "jq -r 'if (.tool_input.command | test(\"git push|gh pr create\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Launch a background agent (run_in_background: true) to monitor CI and merge conflicts. The agent should: (1) run gh pr checks every 3 minutes for up to 30 minutes, reporting any failures; (2) check for merge conflicts with the base branch (gh pr view --json mergeable) and if found, rebase or merge the base branch to resolve them, then push the fix. Do NOT block the main conversation.\\\"}}\" else empty end'"
           }
         ]
       }
