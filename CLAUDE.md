@@ -17,6 +17,7 @@ Always respond in UK English
 - When creating worktrees do so as a subproject of the current project rather than at a higher dir level
 - Use gh CLI to look up repos, create issues, and manage PRs even when not in the source repo (e.g. gh issue create -R seabbs/repo-name)
 - Avoid `cd /path &&` before commands — gh works from worktrees without cd, use `git -C` for other repos, and `gh -R` for cross-repo operations
+- Never pipe allowed commands through head/tail/grep/wc — piped commands don't match allow-list patterns and trigger permission prompts. Use built-in flags instead (e.g. `gh issue view --json`, `git log -n`)
 - Commit and push changes before creating PRs
 - Create GitHub issues for follow-up work discovered during implementation
 - When creating issues or PRs as bot, add a note at the end: "This was opened by a bot. Please ping @seabbs for any questions."
