@@ -121,6 +121,7 @@
       "Bash(xargs:*)",
       "Bash(pmset:*)",
       "Bash(timeout:*)",
+      "Bash(sleep:*)",
       "Bash(pgrep:*)",
       "Bash(true)",
       "Bash(source:*)",
