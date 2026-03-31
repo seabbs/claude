@@ -204,7 +204,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'if (.tool_input.command | test(\"gh pr create\")) then (if (.tool_input.command | test(\"# checks-passed\")) then empty else \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"deny\\\",\\\"permissionDecisionReason\\\":\\\"Before creating a PR, run full package checks via Taskfile or project equivalents: task format, task lint, task test, and task check (if available). Fix all issues. Once everything passes, retry with a trailing # checks-passed comment. If the project has no tests or formatters, skip straight to retrying with # checks-passed.\\\"}}\" end) else empty end'"
+            "command": "jq -r 'if (.tool_input.command | test(\"gh pr create\")) then (if (.tool_input.command | test(\"# checks-passed\")) then empty else \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"deny\\\",\\\"permissionDecisionReason\\\":\\\"Before creating a PR, run full package checks via Taskfile or project equivalents: task format, task lint, task test, and task check (if available). Fix all issues. Then check test coverage of files changed on this branch (R: Rscript -e covr::zero_coverage filtered to changed files, Python: pytest --cov, Julia: Coverage.jl). Report uncovered lines in changed files only, ignore pre-existing gaps. Once everything passes, retry with a trailing # checks-passed comment. If the project has no tests or formatters, skip straight to retrying with # checks-passed.\\\"}}\" end) else empty end'"
           }
         ]
       },
