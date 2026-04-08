@@ -1,0 +1,22 @@
+{
+  "name": "seabbs-plugins-community",
+  "description": "seabbs community plugins for Claude Code.",
+  "owner": {
+    "name": "seabbs",
+    "email": ""
+  },
+  "plugins": [
+    {
+      "name": "seabbs-plugin",
+      "version": "0.1.0",
+      "source": "./plugins/seabbs-plugin",
+      "description": "seabbs plugin for demonstration purposes",
+      "category": "utility",
+      "tags": ["seabbs", "claude-code", "plugin"],
+      "author": {
+        "name": "Sam Abbott",
+        "email": ""
+      }
+    }
+  ]
+}
