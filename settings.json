@@ -3,26 +3,6 @@
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
-  "model": "opus[1m]",
-  "statusLine": {
-    "type": "command",
-    "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(basename \"$cwd\"); tokens=$(echo \"$input\" | jq -r '.context.tokens_loaded // 0'); exceeds=$(echo \"$input\" | jq -r '.context.exceeds_200k_tokens // false'); if [ -d \"$cwd/.git\" ]; then branch=$(cd \"$cwd\" && git -c core.useBuiltinFSMonitor=false branch --show-current 2>/dev/null); git_info=\" on ${branch:-unknown}\"; else git_info=\"\"; fi; if [ \"$tokens\" != \"0\" ] && [ \"$tokens\" != \"null\" ]; then tokens_k=$((tokens / 1000)); if [ \"$exceeds\" = \"true\" ]; then context_info=\" | ${tokens_k}k tokens (!)\"; else context_info=\" | ${tokens_k}k tokens\"; fi; else context_info=\"\"; fi; printf \"${dir}${git_info} | ${model}${context_info}\""
-  },
-  "enabledPlugins": {
-    "feature-dev@claude-code-plugins": true,
-    "research-academic@skills": true,
-    "lang-r@skills": true,
-    "lang-julia@skills": true,
-    "lang-stan@skills": true,
-    "dev-workflow@skills": true,
-    "github-ops@skills": true,
-    "org-management@skills": true,
-    "bot-automation@skills": true,
-    "productivity@skills": true
-  },
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
-  "voiceEnabled": true,
   "permissions": {
     "allow": [
       "Agent",
@@ -197,6 +177,7 @@
       "Bash(quarto:*)"
     ]
   },
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -228,6 +209,74 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+          }
+        ]
+      }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(basename \"$cwd\"); tokens=$(echo \"$input\" | jq -r '.context.tokens_loaded // 0'); exceeds=$(echo \"$input\" | jq -r '.context.exceeds_200k_tokens // false'); if [ -d \"$cwd/.git\" ]; then branch=$(cd \"$cwd\" && git -c core.useBuiltinFSMonitor=false branch --show-current 2>/dev/null); git_info=\" on ${branch:-unknown}\"; else git_info=\"\"; fi; if [ \"$tokens\" != \"0\" ] && [ \"$tokens\" != \"null\" ]; then tokens_k=$((tokens / 1000)); if [ \"$exceeds\" = \"true\" ]; then context_info=\" | ${tokens_k}k tokens (!)\"; else context_info=\" | ${tokens_k}k tokens\"; fi; else context_info=\"\"; fi; printf \"${dir}${git_info} | ${model}${context_info}\""
+  },
+  "enabledPlugins": {
+    "feature-dev@claude-code-plugins": true,
+    "research-academic@skills": true,
+    "lang-r@skills": true,
+    "lang-julia@skills": true,
+    "lang-stan@skills": true,
+    "dev-workflow@skills": true,
+    "github-ops@skills": true,
+    "org-management@skills": true,
+    "bot-automation@skills": true,
+    "productivity@skills": true
+  },
+  "alwaysThinkingEnabled": true,
+  "voiceEnabled": true
 }
