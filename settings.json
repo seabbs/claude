@@ -202,7 +202,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+            "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
           }
         ]
       }
@@ -213,7 +213,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'if (.tool_input.command | test(\"gh pr create\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Launch THREE background agents (run_in_background: true). Agent 1 - CI monitor: gh pr checks every 3 min for 30 min, report failures. Check merge conflicts (gh pr view --json mergeable), rebase and push if found. Agent 2 - Code reviewer: run /review pr, then post each critical/important finding as an inline PR comment (gh api repos/{owner}/{repo}/pulls/{number}/comments -f path -f line -f body -f commit_id -f side=RIGHT). Skip suggestions and positives. Agent 3 - Review monitor: poll gh api repos/{owner}/{repo}/pulls/{number}/reviews and pulls/{number}/comments filtered to users seabbs and seabbs-bot. Fix all comments found. Adaptive polling: every 10 min for first 30 min, then every 30 min for up to 4 hours. Track processed comment IDs. IMPORTANT: background agents cannot prompt for permissions. Use separate Bash calls per command, never chain with && or pipes.\\\"}}\" elif (.tool_input.command | test(\"git push\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Launch a background agent (run_in_background: true) to monitor CI and merge conflicts. The agent should: (1) run gh pr checks every 3 minutes for up to 30 minutes, reporting any failures; (2) check for merge conflicts with the base branch (gh pr view --json mergeable) and if found, rebase or merge the base branch to resolve them, then push the fix. IMPORTANT: background agents cannot prompt for permissions. Always use separate Bash tool calls for each command. Never chain commands with &&, pipes, or loops in a single Bash call. Do NOT block the main conversation.\\\"}}\" else empty end'"
+            "command": "jq -r 'if (.tool_input.command | test(\"gh pr create\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"/mark-pr-agent, then background Opus subagent: activate and run `pr-automate` skill.\\\"}}\" elif (.tool_input.command | test(\"git push\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Background Opus subagent: activate and run `pr-automate` skill.\\\"}}\" else empty end'"
           }
         ]
       },
@@ -221,7 +221,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+            "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
           }
         ]
       }
@@ -231,7 +231,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+            "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
           }
         ]
       }
@@ -241,7 +241,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+            "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
           }
         ]
       }
@@ -251,7 +251,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+            "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
           }
         ]
       }
@@ -261,7 +261,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+            "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
           }
         ]
       }
@@ -271,7 +271,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/code/seabbs/dotfiles/scripts/claude-session-track.sh"
+            "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
           }
         ]
       }
@@ -294,6 +294,7 @@
     "productivity@skills": true
   },
   "alwaysThinkingEnabled": true,
+  "voiceEnabled": true,
   "reasoningEffort": "auto",
-  "voiceEnabled": true
+  "effortLevel": "high"
 }
