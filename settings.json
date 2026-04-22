@@ -185,7 +185,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'if (.tool_input.command | test(\"gh pr create\")) then (if (.tool_input.command | test(\"# checks-passed\")) then empty else \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"deny\\\",\\\"permissionDecisionReason\\\":\\\"Pre-PR checks required. Spawn a subagent via the Agent tool running the pre-pr-checks skill. When it reports ready, retry this command with a trailing # checks-passed comment.\\\"}}\" end) else empty end'"
+            "command": "jq -r 'if (.tool_input.command | test(\"^gh pr create\\\\b\")) then (if (.tool_input.command | test(\"# checks-passed\")) then empty else \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"deny\\\",\\\"permissionDecisionReason\\\":\\\"Pre-PR checks required. Spawn a subagent via the Agent tool running the pre-pr-checks skill. When it reports ready, retry this command with a trailing # checks-passed comment.\\\"}}\" end) else empty end'"
           }
         ]
       },
@@ -194,7 +194,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'if (.tool_input.command | test(\"git commit\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"allow\\\",\\\"additionalContext\\\":\\\"PRE-COMMIT: If you have not run tests and formatters recently, do so now before committing (task test, task lint, task format, or project equivalents). Keep commits regular but keep tests green. If the project has no tests or formatters, skip silently.\\\"}}\" else empty end'"
+            "command": "jq -r 'if (.tool_input.command | test(\"^git commit\\\\b\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"allow\\\",\\\"additionalContext\\\":\\\"PRE-COMMIT: If you have not run tests and formatters recently, do so now before committing (task test, task lint, task format, or project equivalents). Keep commits regular but keep tests green. If the project has no tests or formatters, skip silently.\\\"}}\" else empty end'"
           }
         ]
       },
@@ -213,7 +213,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'if (.tool_input.command | test(\"gh pr create\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Run /mark-pr-agent to tag this PR as agent-authored. Then spawn a background subagent via the Agent tool with run_in_background: true and tell it to run the pr-automate skill for this PR.\\\"}}\" elif (.tool_input.command | test(\"git push\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Spawn a background subagent via the Agent tool with run_in_background: true and tell it to run the pr-automate skill for the open PR on this branch.\\\"}}\" else empty end'"
+            "command": "jq -r 'if (.tool_input.command | test(\"^gh pr create\\\\b\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Run /mark-pr-agent to tag this PR as agent-authored. Then spawn a background subagent via the Agent tool with run_in_background: true and tell it to run the pr-automate skill for this PR.\\\"}}\" elif (.tool_input.command | test(\"^git push\\\\b\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Spawn a background subagent via the Agent tool with run_in_background: true and tell it to run the pr-automate skill for the open PR on this branch.\\\"}}\" else empty end'"
           }
         ]
       },
