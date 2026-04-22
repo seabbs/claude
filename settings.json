@@ -213,7 +213,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r 'if (.tool_input.command | test(\"^gh pr create\\\\b\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Run /mark-pr-agent to tag this PR as agent-authored. Then spawn a background subagent via the Agent tool with run_in_background: true and tell it to run the pr-automate skill for this PR.\\\"}}\" elif (.tool_input.command | test(\"^git push\\\\b\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Spawn a background subagent via the Agent tool with run_in_background: true and tell it to run the pr-automate skill for the open PR on this branch.\\\"}}\" else empty end'"
+            "command": "jq -r 'if (.tool_input.command | test(\"^gh pr create\\\\b\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Spawn a background subagent via the Agent tool with run_in_background: true and tell it to run the pr-automate skill for this PR.\\\"}}\" elif (.tool_input.command | test(\"^git push\\\\b\")) then \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"Spawn a background subagent via the Agent tool with run_in_background: true and tell it to run the pr-automate skill for the open PR on this branch.\\\"}}\" else empty end'"
           }
         ]
       },
