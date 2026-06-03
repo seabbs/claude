@@ -294,8 +294,12 @@
     "productivity@skills": true
   },
   "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "editorMode": "vim",
+  "preferredNotifChannel": "terminal_bell",
+  "skipAutoPermissionPrompt": true,
   "voiceEnabled": true,
   "reasoningEffort": "auto",
-  "effortLevel": "high",
-  "skipAutoPermissionPrompt": true
+  "skipWorkflowUsageWarning": true
 }
