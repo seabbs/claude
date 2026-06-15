@@ -26,7 +26,7 @@ Always respond in UK English
 - When reviewing PRs, fetch inline review comments with `gh api repos/{owner}/{repo}/pulls/{pr}/comments` to see and respond to line-specific feedback
 
 ## Workflow
-- Use parallel subagents where possible, each with relevant /skills in their prompt
+- Use parallel subagents where possible (subject to compute headroom — see Compute awareness), each with relevant /skills in their prompt
 - Before implementing new features, search codebase for existing similar functionality
 - Follow Red/Green TDD: write a failing test, commit, make it pass, commit, refactor, commit
 - Commit after each small unit of completed work without waiting to be asked
@@ -37,6 +37,13 @@ Always respond in UK English
 - On project setup, create a Taskfile.yml to manage common development tasks
 - Subagent skill mapping: R work → /r-development, Julia → /julia-development, Stan → /stan-development, code changes → /lint + /test, code review → /review, GitHub issues → /issue-summary, statistical models → /stats-implement + /stats-review, academic revision → /academic-revise, literature → /literature-search, verification → /check-requirements
 - When reading symlinked files, use the local path within the project (e.g. `context/file.R`) not the resolved target path
+
+## Compute awareness (shared hosts)
+- Some hosts (e.g. the archie agents hub) run several agents at once and can be overloaded into unresponsiveness
+- A PreToolUse hook (`~/.claude/hooks/compute-guard.sh`) blocks subagent spawns and heavy build commands when load is red; it fails open and only trips when the box is genuinely oversubscribed
+- Before fanning out or starting a big build, check headroom: `~/.claude/hooks/compute-budget.sh` prints a verdict (green/amber/red) and a recommended max parallel count
+- When red: run builds serially, cut subagent fan-out, and wait for load to fall; remediation commands (e.g. pkill) are never blocked
+- Override only when you are sure the box is fine: `echo green > ~/.cache/compute-budget-force`, then `rm` it afterwards
 
 ## Prose formats (Markdown, Quarto, TeX)
 - One sentence per line; no 80-char wrapping
