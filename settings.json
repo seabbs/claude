@@ -205,6 +205,15 @@
             "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash|Task|Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/compute-guard.sh\""
+          }
+        ]
       }
     ],
     "PostToolUse": [
