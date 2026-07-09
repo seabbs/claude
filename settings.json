@@ -1,5 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "mcpServers": {
+    "qmd": {
+      "command": "qmd",
+      "args": ["mcp"]
+    }
+  },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
@@ -66,6 +72,10 @@
       "mcp__github__get_me",
       "mcp__github__search_issues",
       "mcp__github__get_pull_request_status",
+      "mcp__qmd__query",
+      "mcp__qmd__get",
+      "mcp__qmd__multi_get",
+      "mcp__qmd__status",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(wc:*)",
