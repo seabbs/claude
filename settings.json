@@ -349,12 +349,6 @@
   },
   "voiceEnabled": true,
   "mcpServers": {
-    "qmd": {
-      "command": "qmd",
-      "args": [
-        "mcp"
-      ]
-    },
     "julia-repl": {
       "command": "julia",
       "args": [
