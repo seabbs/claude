@@ -34,8 +34,30 @@ update() {
   claude plugin update humanizer@anthropic-agent-skills || \
     echo "  Warning: failed to update humanizer"
 
+  mcp_servers
+
   echo ""
   echo "Done. Restart Claude Code to load updates."
+}
+
+# MCP servers are NOT read from settings.json — the settings schema has no
+# `mcpServers` key, and unknown keys are ignored silently, so declaring one
+# there looks wired up while doing nothing. Register at user scope instead
+# (state lands in ~/.claude.json, which is machine-local and untracked).
+mcp_servers() {
+  echo "Registering MCP servers..."
+
+  if ! command -v qmd >/dev/null 2>&1; then
+    echo "  Skipping qmd: not on PATH (installed by dotfiles/cli/setup.sh)"
+    return
+  fi
+
+  if claude mcp get qmd >/dev/null 2>&1; then
+    echo "  qmd already registered"
+  else
+    claude mcp add -s user qmd -- qmd mcp || \
+      echo "  Warning: failed to register qmd"
+  fi
 }
 
 install() {
@@ -54,6 +76,8 @@ install() {
   echo "Installing third-party plugins..."
   claude plugin install humanizer@anthropic-agent-skills || \
     echo "  Warning: failed to install humanizer"
+
+  mcp_servers
 
   echo ""
   echo "Done. Restart Claude Code to load new plugins."

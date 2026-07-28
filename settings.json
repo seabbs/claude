@@ -1,11 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "mcpServers": {
-    "qmd": {
-      "command": "qmd",
-      "args": ["mcp"]
-    }
-  },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
