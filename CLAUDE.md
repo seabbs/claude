@@ -25,14 +25,16 @@ Always respond in UK English
 - For line-specific PR review comments use `gh api repos/{owner}/{repo}/pulls/{pr}/comments -f path=file -f body=comment -f commit_id=sha -f line=N -f side=RIGHT`
 - When reviewing PRs, fetch inline review comments with `gh api repos/{owner}/{repo}/pulls/{pr}/comments` to see and respond to line-specific feedback
 
-## jj (Jujutsu) + hunk
+## jj (Jujutsu) + tuicr
 - Some repos are colocated jj/git (a `.jj` dir beside `.git`); jj is a second view over the same git history, so the git-based worktree + PR flow is unchanged and stays primary
 - jj does NOT read git's `user.*` — identity is set in `~/.config/jj/config.toml` (bot account)
 - Task isolation stays `git worktree`; do NOT use `jj workspace` (mixing jj workspaces with git worktrees is fragile). A fresh git worktree has no `.jj` — to use jj tooling inside one, run `jj git init --colocate` (reversible with `rm -rf .jj`)
 - Where a repo is colocated, prefer jj for shaping history within a working copy: `jj st`/`jj log` (no staging area; edits are already in `@`), `jj describe -m`, `jj commit -m` (≈ git commit), `jj split` (carve a mixed change into clean commits), `jj undo`
 - Push/PR stays git + gh: `jj bookmark create feat/x -r @ && jj git push --bookmark feat/x`, then normal `gh pr create`; never point a bookmark at `main`
 - If a repo is plain git (no `.jj`), use git as normal — do not run `jj git init`
-- Review diffs a human will read through hunk, not raw `git diff`: `hunk diff` (working tree), `hunk show <ref|revset>` (a commit), `hunk diff --watch` (live)
+- Review diffs a human will read through tuicr, not raw `git diff` — the `/tuicr` skill opens it in a tmux split; `review` is the shell alias (no args = working copy, a number = that PR, a range = those commits)
+- The tuicr TUI belongs to the human: find their session with `tuicr review list --repo .` (`active: true`), read their feedback with `tuicr review comments --session <slug>`, and poll roughly every 30s while waiting. Treat `issue` as blocking, `suggestion` as consider-or-explain, `note` as a question
+- Only write into a session when asked to review a patch yourself, and always with `--username` set so agent comments are distinguishable: `tuicr review add --session <slug> --target-file F --line N --type issue --username claude "…"`
 
 ## Workflow
 - Use parallel subagents where possible (subject to compute headroom — see Compute awareness), each with relevant /skills in their prompt
