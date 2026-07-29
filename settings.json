@@ -4,6 +4,19 @@
     "qmd": {
       "command": "qmd",
       "args": ["mcp"]
+    },
+    "julia-repl": {
+      "command": "julia",
+      "args": [
+        "--project=@AgentREPL",
+        "-e",
+        "using AgentREPL; AgentREPL.start_server(project_dir = get(ENV, \"JULIA_REPL_PROJECT\", \".\"))"
+      ],
+      "env": {
+        "JULIA_REPL_PROJECT": ".",
+        "JULIA_REPL_HIGHLIGHT": "false",
+        "JULIA_REPL_OUTPUT_FORMAT": "plain"
+      }
     }
   },
   "env": {
@@ -76,6 +89,13 @@
       "mcp__qmd__get",
       "mcp__qmd__multi_get",
       "mcp__qmd__status",
+      "mcp__julia-repl__eval",
+      "mcp__julia-repl__info",
+      "mcp__julia-repl__revise",
+      "mcp__julia-repl__activate",
+      "mcp__julia-repl__pkg",
+      "mcp__julia-repl__session",
+      "mcp__julia-repl__reset",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(wc:*)",

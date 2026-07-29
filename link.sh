@@ -20,6 +20,9 @@ link "CLAUDE.md"      "$HOME/.claude/CLAUDE.md"
 link "settings.json"  "$HOME/.claude/settings.json"
 link "commands"        "$HOME/.claude/commands"
 link "hooks"           "$HOME/.claude/hooks"
+# Skills are linked one by one: ~/.claude/skills also holds skills that
+# install scripts write, so the directory itself must not be a symlink.
+link "skills/julia-repl" "$HOME/.claude/skills/julia-repl"
 
 echo "Done."
 echo "Run ~/.claude/setup.sh to install plugins."
