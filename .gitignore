@@ -19,6 +19,10 @@
 !hooks/
 !hooks/**
 
+# Skills
+!skills/
+!skills/**
+
 # CI
 !.github/
 !.github/**
