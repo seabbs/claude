@@ -36,6 +36,15 @@ Always respond in UK English
 - The tuicr TUI belongs to the human: find their session with `tuicr review list --repo .` (`active: true`), read their feedback with `tuicr review comments --session <slug>`, and poll roughly every 30s while waiting. Treat `issue` as blocking, `suggestion` as consider-or-explain, `note` as a question
 - Only write into a session when asked to review a patch yourself, and always with `--username` set so agent comments are distinguishable: `tuicr review add --session <slug> --target-file F --line N --type issue --username claude "…"`
 
+## Review bot (seabbs-review-bot)
+- A GitHub App identity, separate from seabbs-bot, so a review is not the PR author talking to itself; GitHub blocks APPROVE/REQUEST_CHANGES from the author
+- `dotfiles/scripts/review-bot.sh` runs from cron every 20 minutes: it reviews open PRs by seabbs or seabbs-bot in seabbs, epinowcast, epiforecasts and EpiAware, once when the PR opens, and again only when seabbs (not the bot) comments `/review`
+- Drafts, PRs opened before the bot was switched on, PRs over 3000 changed lines, and anything labelled `no-review` are skipped
+- The review runs Sonnet inside bwrap with a tmpfs home, so it cannot read `~/.ssh`, `~/.config/gh` or `~/code`, and its output is scanned for credential shapes before posting
+- Do not post PR review findings as seabbs-bot; either let the review bot do it or keep the review local in tuicr
+- Manual use: `review-bot.sh --pr owner/repo#N --dry-run` writes the review to `~/.local/share/review-bot/last-review.json` without posting; drop `--dry-run` to post; `--list` shows what the next run would pick up
+- App credentials live in `~/.config/review-bot`; `review-bot-token.sh --check` verifies the app and lists its installations
+
 ## Workflow
 - Use parallel subagents where possible (subject to compute headroom — see Compute awareness), each with relevant /skills in their prompt
 - Before implementing new features, search codebase for existing similar functionality
@@ -69,6 +78,10 @@ Always respond in UK English
 - Avoid LLM indicator words: comprehensive, practitioner(s), framework (when vague), current approaches, leverage, facilitate, robust, novel, landscape, utilize, foster, harness, streamline, pivotal, nuanced, multifaceted, cornerstone, synergy, overarching
 - Minimise colon use in prose; only use when genuinely needed
 - Minimise use of - for punctuation
+- Keep sentences short. Split into separate sentences rather than joining clauses with semicolons, dashes or commas
+- No run-on sentences
+- Say each point once. Do not restate a point already made
+- When editing existing text, make the minimal change. Do not rewrite surrounding prose that did not need to change
 - Prefer simple, direct prose without adjectives. Example:
 
 "Recent outbreaks of Ebola, COVID-19 and mpox have demonstrated the value of modelling for synthesising data for rapid evidence to inform decision making.
