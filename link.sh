@@ -23,6 +23,7 @@ link "hooks"           "$HOME/.claude/hooks"
 # Skills are linked one by one: ~/.claude/skills also holds skills that
 # install scripts write, so the directory itself must not be a symlink.
 link "skills/julia-repl" "$HOME/.claude/skills/julia-repl"
+link "skills/bot-report" "$HOME/.claude/skills/bot-report"
 
 echo "Done."
 echo "Run ~/.claude/setup.sh to install plugins."
