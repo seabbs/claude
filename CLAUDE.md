@@ -40,7 +40,8 @@ Always respond in UK English
 - A GitHub App identity, separate from seabbs-bot, so a review is not the PR author talking to itself; GitHub blocks APPROVE/REQUEST_CHANGES from the author
 - `dotfiles/scripts/review-bot.sh` runs from cron every 5 minutes: it reviews open PRs by seabbs or seabbs-bot in seabbs, epinowcast, epiforecasts and EpiAware, once when the PR opens, and again only when seabbs (not the bot) comments `/review`
 - A poll with nothing to do costs two API calls; both searches filter server side, so the cadence is cheap
-- Drafts, PRs opened before the bot was switched on, PRs over 3000 changed lines, and anything labelled `no-review` are skipped
+- To ask for a review, comment `/review` on the PR; that works on any PR in those owners, including drafts, old PRs and other people's work, and only seabbs can ask
+- On the automatic path only, drafts, PRs opened before the bot was switched on and PRs by anyone else are skipped; PRs over 3000 changed lines and anything labelled `no-review` are always skipped
 - The review runs Sonnet inside bwrap with a tmpfs home, so it cannot read `~/.ssh`, `~/.config/gh` or `~/code`, and its output is scanned for credential shapes before posting
 - Do not post PR review findings as seabbs-bot; either let the review bot do it or keep the review local in tuicr
 - Manual use: `review-bot.sh --pr owner/repo#N --dry-run` writes the review to `~/.local/share/review-bot/last-review.json` without posting; drop `--dry-run` to post; `--list` shows what the next run would pick up
