@@ -24,6 +24,7 @@ link "hooks"           "$HOME/.claude/hooks"
 # install scripts write, so the directory itself must not be a symlink.
 link "skills/julia-repl" "$HOME/.claude/skills/julia-repl"
 link "skills/bot-report" "$HOME/.claude/skills/bot-report"
+link "skills/patch-release" "$HOME/.claude/skills/patch-release"
 
 echo "Done."
 echo "Run ~/.claude/setup.sh to install plugins."
