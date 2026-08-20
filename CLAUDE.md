@@ -26,30 +26,17 @@ Always respond in UK English
 - When reviewing PRs, fetch inline review comments with `gh api repos/{owner}/{repo}/pulls/{pr}/comments` to see and respond to line-specific feedback
 
 ## jj (Jujutsu) + tuicr
-- Some repos are colocated jj/git (a `.jj` dir beside `.git`); jj is a second view over the same git history, so the git-based worktree + PR flow is unchanged and stays primary
-- jj does NOT read git's `user.*` — identity is set in `~/.config/jj/config.toml` (bot account)
-- Task isolation stays `git worktree`; do NOT use `jj workspace` (mixing jj workspaces with git worktrees is fragile). A fresh git worktree has no `.jj` — to use jj tooling inside one, run `jj git init --colocate` (reversible with `rm -rf .jj`)
-- Where a repo is colocated, prefer jj for shaping history within a working copy: `jj st`/`jj log` (no staging area; edits are already in `@`), `jj describe -m`, `jj commit -m` (≈ git commit), `jj split` (carve a mixed change into clean commits), `jj undo`
-- Push/PR stays git + gh: `jj bookmark create feat/x -r @ && jj git push --bookmark feat/x`, then normal `gh pr create`; never point a bookmark at `main`
-- If a repo is plain git (no `.jj`), use git as normal — do not run `jj git init`
-- Review diffs a human will read through tuicr, not raw `git diff` — the `/tuicr` skill opens it in a tmux split; `review` is the shell alias (no args = working copy, a number = that PR, a range = those commits)
-- The tuicr TUI belongs to the human: find their session with `tuicr review list --repo .` (`active: true`), read their feedback with `tuicr review comments --session <slug>`, and poll roughly every 30s while waiting. Treat `issue` as blocking, `suggestion` as consider-or-explain, `note` as a question
-- Only write into a session when asked to review a patch yourself, and always with `--username` set so agent comments are distinguishable: `tuicr review add --session <slug> --target-file F --line N --type issue --username claude "…"`
+- Some repos are colocated jj/git (a `.jj` dir beside `.git`). Git stays primary for worktrees and PRs; jj is for shaping history in a working copy (`jj st`, `jj describe`, `jj commit`, `jj split`, `jj undo`)
+- jj does NOT read git's `user.*` — identity is in `~/.config/jj/config.toml`
+- Task isolation stays `git worktree`, never `jj workspace`. A fresh worktree has no `.jj`; add one with `jj git init --colocate`, undo with `rm -rf .jj`. Plain-git repos stay plain
+- Push and PR stay git + gh; never point a bookmark at `main`
+- Diffs a human will read go through tuicr rather than raw `git diff` — see the `/tuicr` skill
 
 ## Review bot (seabbs-review-bot)
-- A GitHub App identity, separate from seabbs-bot, so a review is not the PR author talking to itself; GitHub blocks APPROVE/REQUEST_CHANGES from the author
-- `dotfiles/scripts/review-bot.sh` runs from cron every 5 minutes: it reviews open PRs by seabbs or seabbs-bot in seabbs, epinowcast, epiforecasts and EpiAware, once when the PR opens, and again only when seabbs (not the bot) asks
-- A poll with nothing to do costs two API calls; both searches filter server side, so the cadence is cheap
-- To ask for a review, comment `@seabbs-review-bot` on the PR; that works on any PR in those owners, including drafts, old PRs and other people's work
-- seabbs can ask any time; seabbs-bot can ask too, but only once the head commit has moved since the last review and at most 5 times per PR, so an agent has to push work to earn another pass and a fix/review/fix loop cannot run away
-- After answering review findings and pushing the fixes, asking for another pass is the right move rather than waiting for a human
-- On the automatic path only, drafts, PRs opened before the bot was switched on and PRs by anyone else are skipped; PRs over 3000 changed lines and anything labelled `no-review` are always skipped
-- The review runs Sonnet inside bwrap with a tmpfs home, so it cannot read `~/.ssh`, `~/.config/gh` or `~/code`, and its output is scanned for credential shapes before posting
-- Do not post PR review findings as seabbs-bot; either let the review bot do it or keep the review local in tuicr
-- After opening or pushing to a PR, wait for the review bot's review and act on it: fix what it gets right, and say explicitly which findings you are rejecting and why. Verify each finding against the source yourself rather than applying or dismissing it on the bot's say-so — it has been both right about bugs I missed and wrong from its own truncated greps
-- Where acting on a finding would reverse a decision the user made explicitly, do the rest and put that one back to them with the new information, rather than silently flipping it
-- Manual use: `review-bot.sh --pr owner/repo#N --dry-run` writes the review to `~/.local/share/review-bot/last-review.json` without posting; drop `--dry-run` to post; `--list` shows what the next run would pick up
-- App credentials live in `~/.config/review-bot`; `review-bot-token.sh --check` verifies the app and lists its installations
+- A GitHub App reviews PRs by seabbs or seabbs-bot when they open, and again on request when either comments `@seabbs-review-bot`. The `bot-report` skill covers how it runs and how to audit it
+- Act on its reviews: fix what it gets right, say explicitly which findings you reject and why, and verify each against the source yourself rather than on its say-so — it has caught real bugs and has also been wrong from its own truncated greps
+- Where acting on a finding would reverse a decision I made explicitly, do the rest and put that one back to me with the new information rather than silently flipping it
+- Never post your own review findings as seabbs-bot; let the review bot do it, or keep the review local in tuicr
 
 ## Workflow
 - Use parallel subagents where possible (subject to compute headroom — see Compute awareness), each with relevant /skills in their prompt
