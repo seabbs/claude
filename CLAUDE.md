@@ -40,10 +40,14 @@ Always respond in UK English
 - A GitHub App identity, separate from seabbs-bot, so a review is not the PR author talking to itself; GitHub blocks APPROVE/REQUEST_CHANGES from the author
 - `dotfiles/scripts/review-bot.sh` runs from cron every 5 minutes: it reviews open PRs by seabbs or seabbs-bot in seabbs, epinowcast, epiforecasts and EpiAware, once when the PR opens, and again only when seabbs (not the bot) asks
 - A poll with nothing to do costs two API calls; both searches filter server side, so the cadence is cheap
-- To ask for a review, comment `@seabbs-review-bot` on the PR; that works on any PR in those owners, including drafts, old PRs and other people's work, and only a comment from seabbs counts
+- To ask for a review, comment `@seabbs-review-bot` on the PR; that works on any PR in those owners, including drafts, old PRs and other people's work
+- seabbs can ask any time; seabbs-bot can ask too, but only once the head commit has moved since the last review and at most 5 times per PR, so an agent has to push work to earn another pass and a fix/review/fix loop cannot run away
+- After answering review findings and pushing the fixes, asking for another pass is the right move rather than waiting for a human
 - On the automatic path only, drafts, PRs opened before the bot was switched on and PRs by anyone else are skipped; PRs over 3000 changed lines and anything labelled `no-review` are always skipped
 - The review runs Sonnet inside bwrap with a tmpfs home, so it cannot read `~/.ssh`, `~/.config/gh` or `~/code`, and its output is scanned for credential shapes before posting
 - Do not post PR review findings as seabbs-bot; either let the review bot do it or keep the review local in tuicr
+- After opening or pushing to a PR, wait for the review bot's review and act on it: fix what it gets right, and say explicitly which findings you are rejecting and why. Verify each finding against the source yourself rather than applying or dismissing it on the bot's say-so — it has been both right about bugs I missed and wrong from its own truncated greps
+- Where acting on a finding would reverse a decision the user made explicitly, do the rest and put that one back to them with the new information, rather than silently flipping it
 - Manual use: `review-bot.sh --pr owner/repo#N --dry-run` writes the review to `~/.local/share/review-bot/last-review.json` without posting; drop `--dry-run` to post; `--list` shows what the next run would pick up
 - App credentials live in `~/.config/review-bot`; `review-bot-token.sh --check` verifies the app and lists its installations
 
