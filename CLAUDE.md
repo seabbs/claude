@@ -50,7 +50,12 @@ Always respond in UK English
 - Use `@placeholder` for missing references
 
 ## All languages
-- Max 80 chars per line for code
+- Prefer under ~80 chars per line for new code; wrap at natural points
+  (call args, chained methods, boolean operators), never mid-token or
+  mid-string. This is a soft target, not something to hunt down and
+  enforce — do not rewrap or restyle existing/unrelated lines just to
+  satisfy it, and do not let it override a language's own formatter
+  (e.g. styler, black, gofmt) where one is already in use.
 - No trailing whitespace
 - No spurious blank lines
 
