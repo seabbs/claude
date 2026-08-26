@@ -13,7 +13,7 @@ Always respond in UK English
 - /commit adds Co-authored-by Sam Abbott (joint work)
 - /commit --as-me commits as Sam Abbott only
 - /commit --bot-only commits as seabbs-bot only (no co-author)
-- Never include "🤖 Generated with [Claude Code]", "Co-Authored-By: Claude", "Co-Authored-By: Happy", or "via [Happy]" in commit messages or PR descriptions
+- Never include "🤖 Generated with [Claude Code]" or "Co-Authored-By: Claude" in commit messages, PR descriptions, or issue bodies
 - When creating worktrees do so as a subproject of the current project rather than at a higher dir level
 - Use gh CLI to look up repos, create issues, and manage PRs even when not in the source repo (e.g. gh issue create -R seabbs/repo-name)
 - Avoid `cd /path &&` before commands — gh works from worktrees without cd, use `git -C` for other repos, and `gh -R` for cross-repo operations
