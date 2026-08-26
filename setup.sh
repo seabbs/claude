@@ -31,9 +31,6 @@ update() {
       echo "  Warning: failed to update ${plugin}"
   done
 
-  claude plugin update humanizer@anthropic-agent-skills || \
-    echo "  Warning: failed to update humanizer"
-
   echo ""
   echo "Done. Restart Claude Code to load updates."
 }
@@ -50,10 +47,6 @@ install() {
     claude plugin install "${plugin}@skills" || \
       echo "  Warning: failed to install ${plugin}"
   done
-
-  echo "Installing third-party plugins..."
-  claude plugin install humanizer@anthropic-agent-skills || \
-    echo "  Warning: failed to install humanizer"
 
   echo ""
   echo "Done. Restart Claude Code to load new plugins."
