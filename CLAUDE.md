@@ -52,10 +52,8 @@ Always respond in UK English
 ## All languages
 - Prefer under ~80 chars per line for new code; wrap at natural points
   (call args, chained methods, boolean operators), never mid-token or
-  mid-string. This is a soft target, not something to hunt down and
-  enforce — do not rewrap or restyle existing/unrelated lines just to
-  satisfy it, and do not let it override a language's own formatter
-  (e.g. styler, black, gofmt) where one is already in use.
+  mid-string.
+- For markdown quarto etc prefer one sentence a line.
 - No trailing whitespace
 - No spurious blank lines
 
@@ -63,12 +61,4 @@ Always respond in UK English
 - Avoid LLM indicator words: comprehensive, practitioner(s), framework (when vague), current approaches, leverage, facilitate, robust, novel, landscape, utilize, foster, harness, streamline, pivotal, nuanced, multifaceted, cornerstone, synergy, overarching
 - Minimise colon use in prose; only use when genuinely needed
 - Minimise use of - for punctuation
-- Prefer simple, direct prose without adjectives. Example:
-
-"Recent outbreaks of Ebola, COVID-19 and mpox have demonstrated the value of modelling for synthesising data for rapid evidence to inform decision making.
-Methods used to synthesise available data in real time broadly fall into two classes: either combining results from multiple, smaller models calibrated in isolation (the _pipeline approach_, e.g., [@huisman2022]), or representing a single model tuned to the specific scenario (the _joint model_ approach, e.g., [@birrell2024;@Watson2024-vj]).
-
-Both approaches have downsides.
-Research has demonstrated that joint modelling of data sources provides significant advantages over combining estimates from separate models by mitigating error propagation, improving reasoning, and ensuring proper uncertainty quantification [@lison2024].
-However, such models tend to be monolithic and designed for specific problems and settings.
-To adapt or extend such models, analysts need to fully comprehend all parts of the corresponding model and code, creating barriers to sharing methodology and leading to inefficient re-implementation when parts of a model could, in principle, be re-used."
+- Prefer simple, direct prose without adjectives.
