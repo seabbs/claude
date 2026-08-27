@@ -8,6 +8,7 @@ Skills live in the [`seabbs/skills`](https://github.com/seabbs/skills) marketpla
 ```
 CLAUDE.md   # Global instructions (identity, workflow, style)
 commands/   # 9 slash commands
+skills/     # Skills tied to this machine's setup, not the marketplace
 link.sh     # Symlink config into ~/.claude/
 setup.sh    # Marketplace registration + plugin installation
 ```

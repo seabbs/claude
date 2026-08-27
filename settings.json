@@ -5,7 +5,6 @@
   },
   "permissions": {
     "allow": [
-      "Agent",
       "WebSearch",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:www.bbc.co.uk)",
@@ -66,6 +65,17 @@
       "mcp__github__get_me",
       "mcp__github__search_issues",
       "mcp__github__get_pull_request_status",
+      "mcp__qmd__query",
+      "mcp__qmd__get",
+      "mcp__qmd__multi_get",
+      "mcp__qmd__status",
+      "mcp__julia-repl__eval",
+      "mcp__julia-repl__info",
+      "mcp__julia-repl__revise",
+      "mcp__julia-repl__activate",
+      "mcp__julia-repl__pkg",
+      "mcp__julia-repl__session",
+      "mcp__julia-repl__reset",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(wc:*)",
@@ -83,7 +93,6 @@
       "Bash(echo:*)",
       "Bash(pwd:*)",
       "Bash(which:*)",
-      "Bash(env:*)",
       "Bash(stat:*)",
       "Bash(mkdir:*)",
       "Bash(touch:*)",
@@ -91,14 +100,12 @@
       "Bash(mv:*)",
       "Bash(find:*)",
       "Bash(diff:*)",
-      "Bash(chmod:*)",
       "Bash(ln:*)",
       "Bash(tree:*)",
       "Bash(readlink:*)",
       "Bash(realpath:*)",
       "Bash(jq:*)",
       "Bash(open:*)",
-      "Bash(xargs:*)",
       "Bash(pmset:*)",
       "Bash(timeout:*)",
       "Bash(sleep:*)",
@@ -305,10 +312,56 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "tui": "fullscreen",
+  "skipWorkflowUsageWarning": true,
   "editorMode": "vim",
   "preferredNotifChannel": "terminal_bell",
   "skipAutoPermissionPrompt": true,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(git push --force*) — scoped to EpiAware/EpiAwareADTools.jl (protected `main` branch; force-push risk)"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: Public — EpiAware/EpiAwareADTools.jl (github.com)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured",
+      "**Default / protected branches**: Default and protected branch: `main` (protected via branch protection; no rulesets listed)",
+      "**CI/CD deploy targets**: None configured",
+      "**Network posture**: None configured",
+      "**Source control**: The trusted repo and its remote(s) only — github.com/EpiAware/EpiAwareADTools.jl (no additional orgs configured)",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: None configured",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar. Note: this repo tracks `.secrets.baseline` files (root and two worktrees) — treat as secrets-detection baselines, not a location to disclose secrets into",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited)",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (Julia package — automatic-differentiation safety tooling)",
+      "**Trusted repo**: This repo (EpiAware/EpiAwareADTools.jl, public) and its origin remote only. As a public repo, only this repo's own work is OK to push there — content ported or first read from outside this session's repo is not its own work. Secrets and sensitive data are never cleared into it by visibility alone.",
+      "**Org-specific CLIs**: None configured — `gh` and `git` used per user's global CLAUDE.md conventions (bot identity seabbs-bot, never push to main, use `gh -R`/`git -C` for cross-repo work); jj/tuicr workflow noted in user config but not evidenced in this repo's usage"
+    ]
+  },
   "voiceEnabled": true,
-  "reasoningEffort": "auto",
-  "skipWorkflowUsageWarning": true
+  "mcpServers": {
+    "julia-repl": {
+      "command": "julia",
+      "args": [
+        "--project=@AgentREPL",
+        "-e",
+        "using AgentREPL; AgentREPL.start_server(project_dir = get(ENV, \"JULIA_REPL_PROJECT\", \".\"))"
+      ],
+      "env": {
+        "JULIA_REPL_PROJECT": ".",
+        "JULIA_REPL_HIGHLIGHT": "false",
+        "JULIA_REPL_OUTPUT_FORMAT": "plain"
+      }
+    }
+  },
+  "reasoningEffort": "auto"
 }

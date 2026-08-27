@@ -25,6 +25,19 @@ Always respond in UK English
 - For line-specific PR review comments use `gh api repos/{owner}/{repo}/pulls/{pr}/comments -f path=file -f body=comment -f commit_id=sha -f line=N -f side=RIGHT`
 - When reviewing PRs, fetch inline review comments with `gh api repos/{owner}/{repo}/pulls/{pr}/comments` to see and respond to line-specific feedback
 
+## jj (Jujutsu) + tuicr
+- Some repos are colocated jj/git (a `.jj` dir beside `.git`). Git stays primary for worktrees and PRs; jj is for shaping history in a working copy (`jj st`, `jj describe`, `jj commit`, `jj split`, `jj undo`)
+- jj does NOT read git's `user.*` — identity is in `~/.config/jj/config.toml`
+- Task isolation stays `git worktree`, never `jj workspace`. A fresh worktree has no `.jj`; add one with `jj git init --colocate`, undo with `rm -rf .jj`. Plain-git repos stay plain
+- Push and PR stay git + gh; never point a bookmark at `main`
+- Diffs a human will read go through tuicr rather than raw `git diff` — see the `/tuicr` skill
+
+## Review bot (seabbs-review-bot)
+- A GitHub App reviews PRs by seabbs or seabbs-bot when they open, and again on request when either comments `@seabbs-review-bot`. The `bot-report` skill covers how it runs and how to audit it
+- Act on its reviews: fix what it gets right, say explicitly which findings you reject and why, and verify each against the source yourself rather than on its say-so — it has caught real bugs and has also been wrong from its own truncated greps
+- Where acting on a finding would reverse a decision I made explicitly, do the rest and put that one back to me with the new information rather than silently flipping it
+- Never post your own review findings as seabbs-bot; let the review bot do it, or keep the review local in tuicr
+
 ## Workflow
 - Use parallel subagents where possible (subject to compute headroom — see Compute awareness), each with relevant /skills in their prompt
 - Before implementing new features, search codebase for existing similar functionality
@@ -61,4 +74,8 @@ Always respond in UK English
 - Avoid LLM indicator words: comprehensive, practitioner(s), framework (when vague), current approaches, leverage, facilitate, robust, novel, landscape, utilize, foster, harness, streamline, pivotal, nuanced, multifaceted, cornerstone, synergy, overarching
 - Minimise colon use in prose; only use when genuinely needed
 - Minimise use of - for punctuation
+- Keep sentences short. Split into separate sentences rather than joining clauses with semicolons, dashes or commas
+- No run-on sentences
+- Say each point once. Do not restate a point already made
+- When editing existing text, make the minimal change. Do not rewrite surrounding prose that did not need to change
 - Prefer simple, direct prose without adjectives.
