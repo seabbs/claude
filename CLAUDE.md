@@ -13,7 +13,7 @@ Always respond in UK English
 - /commit adds Co-authored-by Sam Abbott (joint work)
 - /commit --as-me commits as Sam Abbott only
 - /commit --bot-only commits as seabbs-bot only (no co-author)
-- Never include "🤖 Generated with [Claude Code]", "Co-Authored-By: Claude", "Co-Authored-By: Happy", or "via [Happy]" in commit messages or PR descriptions
+- Never include "🤖 Generated with [Claude Code]" or "Co-Authored-By: Claude" in commit messages, PR descriptions, or issue bodies
 - When creating worktrees do so as a subproject of the current project rather than at a higher dir level
 - Use gh CLI to look up repos, create issues, and manage PRs even when not in the source repo (e.g. gh issue create -R seabbs/repo-name)
 - Avoid `cd /path &&` before commands — gh works from worktrees without cd, use `git -C` for other repos, and `gh -R` for cross-repo operations
@@ -63,7 +63,10 @@ Always respond in UK English
 - Use `@placeholder` for missing references
 
 ## All languages
-- Max 80 chars per line for code
+- Prefer under ~80 chars per line for new code; wrap at natural points
+  (call args, chained methods, boolean operators), never mid-token or
+  mid-string.
+- For markdown quarto etc prefer one sentence a line.
 - No trailing whitespace
 - No spurious blank lines
 
@@ -75,12 +78,4 @@ Always respond in UK English
 - No run-on sentences
 - Say each point once. Do not restate a point already made
 - When editing existing text, make the minimal change. Do not rewrite surrounding prose that did not need to change
-- Prefer simple, direct prose without adjectives. Example:
-
-"Recent outbreaks of Ebola, COVID-19 and mpox have demonstrated the value of modelling for synthesising data for rapid evidence to inform decision making.
-Methods used to synthesise available data in real time broadly fall into two classes: either combining results from multiple, smaller models calibrated in isolation (the _pipeline approach_, e.g., [@huisman2022]), or representing a single model tuned to the specific scenario (the _joint model_ approach, e.g., [@birrell2024;@Watson2024-vj]).
-
-Both approaches have downsides.
-Research has demonstrated that joint modelling of data sources provides significant advantages over combining estimates from separate models by mitigating error propagation, improving reasoning, and ensuring proper uncertainty quantification [@lison2024].
-However, such models tend to be monolithic and designed for specific problems and settings.
-To adapt or extend such models, analysts need to fully comprehend all parts of the corresponding model and code, creating barriers to sharing methodology and leading to inefficient re-implementation when parts of a model could, in principle, be re-used."
+- Prefer simple, direct prose without adjectives.
