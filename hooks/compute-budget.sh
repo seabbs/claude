@@ -57,17 +57,23 @@ fi
 [ -n "${load1:-}" ] || load1=0
 
 # Derive verdict + recommended concurrency in one awk pass (float-safe).
-# red    : load >= ncpu (fully oversubscribed) OR swap thrashing on Linux
-# amber  : load >= 0.7 * ncpu
+# red    : load >= ncpu (fully oversubscribed) OR available memory low
+# amber  : load >= 0.7 * ncpu OR available memory getting low
 # green  : otherwise
 # maxpar : cores left after current load, minus a one-core safety margin
+#
+# Memory is checked on its own, not gated behind swap usage: a box can run
+# low on RAM well before swap fills, especially with little or no swap
+# configured (mem_avail_pct alone catches that; the old sw>=50&&ma<=10
+# combination missed it). New heavy work should stop before the kernel
+# OOM-killer has to pick something, not after.
 read -r verdict maxpar < <(
-  awk -v n="$ncpu" -v l="$load1" -v sw="$swap_used_pct" -v ma="$mem_avail_pct" '
+  awk -v n="$ncpu" -v l="$load1" -v ma="$mem_avail_pct" '
     BEGIN {
       ratio = l / n
       mp = int(n - l - 1); if (mp < 0) mp = 0
-      red = (ratio >= 1.0) || (sw >= 50 && ma <= 10)
-      amber = (ratio >= 0.7)
+      red = (ratio >= 1.0) || (ma <= 15)
+      amber = (ratio >= 0.7) || (ma <= 30)
       v = red ? "red" : (amber ? "amber" : "green")
       print v, mp
     }')
