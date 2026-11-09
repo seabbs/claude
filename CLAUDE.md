@@ -19,8 +19,9 @@ Always respond in UK English
 - Avoid `cd /path &&` before commands — gh works from worktrees without cd, use `git -C` for other repos, and `gh -R` for cross-repo operations
 - Never pipe allowed commands through head/tail/grep/wc — piped commands don't match allow-list patterns and trigger permission prompts. Use built-in flags instead (e.g. `gh issue view --json`, `git log -n`)
 - Commit and push changes before creating PRs
-- Create GitHub issues for follow-up work discovered during implementation
+- Create GitHub issues for follow-up work discovered during implementation, written with the `issue-description` skill (problem, suspected cause and proposed fix up front, detail collapsed)
 - When creating issues or PRs as bot, add a note at the end: "This was opened by a bot. Please ping @seabbs for any questions."
+- Write every PR description with the `pr-description` skill: a short plain-language opener that links the issue it closes, an optional screenshot, then the full agent text inside `<details><summary>MODEL [effort]</summary>`. Pass the body with `--body-file`. A PreToolUse hook (`~/.claude/hooks/pr-body-guard.sh`) blocks `gh pr create`/`gh pr edit` bodies without it
 - Run coderabbit review with: coderabbit review --plain
 - For line-specific PR review comments use `gh api repos/{owner}/{repo}/pulls/{pr}/comments -f path=file -f body=comment -f commit_id=sha -f line=N -f side=RIGHT`
 - When reviewing PRs, fetch inline review comments with `gh api repos/{owner}/{repo}/pulls/{pr}/comments` to see and respond to line-specific feedback
@@ -35,6 +36,7 @@ Always respond in UK English
 ## Review bot (seabbs-review-bot)
 - A GitHub App reviews PRs by seabbs or seabbs-bot when they open, and again on request when either comments `@seabbs-review-bot`. The `bot-report` skill covers how it runs and how to audit it
 - Act on its reviews: fix what it gets right, say explicitly which findings you reject and why, and verify each against the source yourself rather than on its say-so — it has caught real bugs and has also been wrong from its own truncated greps
+- Answer each of its findings in its thread (fixed in <sha>, or why not). It resolves and hides threads where seabbs-bot has the last word, so I never read handled reviews. Put anything needing my decision on a `Needs your decision:` line in the PR description instead of replying. Ask it for a re-review at most once per PR
 - Where acting on a finding would reverse a decision I made explicitly, do the rest and put that one back to me with the new information rather than silently flipping it
 - Never post your own review findings as seabbs-bot; let the review bot do it, or keep the review local in tuicr
 
