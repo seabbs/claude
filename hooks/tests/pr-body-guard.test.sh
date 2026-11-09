@@ -53,6 +53,10 @@ expect allow "checks-passed retry" "gh pr create -t x -F $tmp/good.md # checks-p
 expect deny "after cd" "cd /x && gh pr create -t x -F $tmp/bad.md"
 expect allow "gh -R form" "gh pr create -R seabbs/x -t x -F $tmp/good.md"
 expect allow "string mention only" "git commit -m \"run gh pr create later\""
+expect allow "-F inside title is not a body file" \
+  "gh pr create -t \"fix x-F y\" -F $tmp/good.md"
+expect deny "-F inside title with bad body" \
+  "gh pr create -t \"fix x-F $tmp/good.md\" -F $tmp/bad.md"
 
 if [ "$fails" -ne 0 ]; then
   echo "$fails failed"
