@@ -21,7 +21,7 @@ Always respond in UK English
 - Commit and push changes before creating PRs
 - Create GitHub issues for follow-up work discovered during implementation, written with the `issue-description` skill (problem, suspected cause and proposed fix up front, detail collapsed)
 - When creating issues or PRs as bot, add a note at the end: "This was opened by a bot. Please ping @seabbs for any questions."
-- Write every PR description with the `pr-description` skill: a short plain-language opener (two to four sentences, linking the issue it closes), an optional screenshot, then the full agent text inside `<details><summary>MODEL [effort]</summary>`. Pass the body with `--body-file`. A PreToolUse hook (`~/.claude/hooks/pr-body-guard.sh`) blocks `gh pr create`/`gh pr edit` bodies without it
+- Write every PR description with the `pr-description` skill: a short plain-language opener that links the issue it closes, an optional screenshot, then the full agent text inside `<details><summary>MODEL [effort]</summary>`. Pass the body with `--body-file`. A PreToolUse hook (`~/.claude/hooks/pr-body-guard.sh`) blocks `gh pr create`/`gh pr edit` bodies without it
 - Run coderabbit review with: coderabbit review --plain
 - For line-specific PR review comments use `gh api repos/{owner}/{repo}/pulls/{pr}/comments -f path=file -f body=comment -f commit_id=sha -f line=N -f side=RIGHT`
 - When reviewing PRs, fetch inline review comments with `gh api repos/{owner}/{repo}/pulls/{pr}/comments` to see and respond to line-specific feedback
