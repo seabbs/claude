@@ -222,6 +222,15 @@
             "command": "bash \"$HOME/.claude/hooks/compute-guard.sh\""
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/pr-body-guard.sh\""
+          }
+        ]
       }
     ],
     "PostToolUse": [

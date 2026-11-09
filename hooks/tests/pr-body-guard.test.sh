@@ -54,4 +54,8 @@ expect deny "after cd" "cd /x && gh pr create -t x -F $tmp/bad.md"
 expect allow "gh -R form" "gh pr create -R seabbs/x -t x -F $tmp/good.md"
 expect allow "string mention only" "git commit -m \"run gh pr create later\""
 
-[ "$fails" -eq 0 ] && echo "all passed" || { echo "$fails failed"; exit 1; }
+if [ "$fails" -ne 0 ]; then
+  echo "$fails failed"
+  exit 1
+fi
+echo "all passed"
