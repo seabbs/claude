@@ -71,6 +71,8 @@ expect deny "--body= without details" "gh pr create -t x --body=\"Plain\""
 expect allow "body from a file substitution" \
   "gh pr create -t x --body \"\$(cat $tmp/good.md)\""
 expect allow "body from a variable" "gh pr create -t x --body \"\$BODY\""
+expect deny "variable elsewhere, plain body" \
+  "gh pr edit \"\$PR\" -R \"\$REPO\" --body \"Plain text\""
 expect deny "heredoc body without details" "gh pr create -t x --body \"\$(cat <<'EOF'
 Plain text
 EOF
