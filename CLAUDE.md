@@ -36,7 +36,7 @@ Always respond in UK English
 ## Review bot (seabbs-review-bot)
 - A GitHub App reviews PRs by seabbs or seabbs-bot when they open, and again on request when either comments `@seabbs-review-bot`. The `bot-report` skill covers how it runs and how to audit it
 - Act on its reviews: fix what it gets right, say explicitly which findings you reject and why, and verify each against the source yourself rather than on its say-so — it has caught real bugs and has also been wrong from its own truncated greps
-- Answer each of its findings in its thread (fixed in <sha>, or why not). It resolves and hides threads where seabbs-bot has the last word, so I never read handled reviews. Put anything needing my decision on a `Needs your decision:` line in the PR description instead of replying. Ask it for a re-review at most once per PR
+- Answer each of its findings in its thread (fixed in <sha>, or why not). It resolves and hides threads where seabbs-bot has the last word, so I never read handled reviews. Put anything needing my decision on a `Needs your decision:` line in the PR description instead of replying. Ask it for a re-review at most once per PR. A Stop hook (`~/.claude/hooks/review-guard.sh`) keeps a session going while its PR has unanswered findings or is still waiting for its first review
 - Where acting on a finding would reverse a decision I made explicitly, do the rest and put that one back to me with the new information rather than silently flipping it
 - Never post your own review findings as seabbs-bot; let the review bot do it, or keep the review local in tuicr
 
