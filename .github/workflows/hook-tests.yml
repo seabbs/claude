@@ -1,0 +1,20 @@
+name: Hook tests
+
+on:
+  pull_request:
+    paths: ["hooks/**"]
+  push:
+    branches: [main]
+    paths: ["hooks/**"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run hook tests
+        run: |
+          for t in hooks/tests/*.test.sh; do
+            echo "== $t"
+            bash "$t"
+          done
