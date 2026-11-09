@@ -4,5 +4,6 @@ Steps:
 1. Get the current PR number and body
 2. Prepend the following notice to the PR description:
    **This is entirely from an agent so do not review until I have pinged for review as I will do a first pass**
-3. Update the PR with the modified description
-4. Confirm the notice was added successfully
+3. If the rest of the body does not follow the `pr-description` layout (short opener, full text in `<details><summary>`), restructure it in the same edit
+4. Update the PR with the modified description via `--body-file`
+5. Confirm the notice was added successfully
