@@ -3,9 +3,8 @@
 # when the PR body has no <details><summary> block, so agent-written PR text
 # follows the pr-description skill (short opener, full text collapsed).
 #
-# A heuristic: an inline --body is checked by scanning the whole command,
-# and only the first gh pr create/edit in a command is checked. Fails open
-# when the body cannot be read.
+# Heuristic: scans the command text and checks only the first gh pr call.
+# Fails open when the body cannot be read.
 set -u
 
 command -v jq >/dev/null 2>&1 || exit 0
@@ -40,8 +39,16 @@ the full agent-written text inside <details><summary>MODEL</summary> ... \
 file_re="(^|[[:space:]])(--body-file|-F)(=|[[:space:]]+)"
 file_re+="(\"[^\"]*\"|'[^']*'|[^[:space:];&|]+)"
 body_re="(^|[[:space:]])(--body|-b)(=|[[:space:]])"
+web_re="(^|[[:space:]])(--web|-w)([[:space:]]|$)"
+title_re="(^|[[:space:]])(--title|-t)(=|[[:space:]]+)(\"[^\"]*\"|'[^']*')"
 
-if [[ "$cmd" =~ $file_re ]]; then
+# Drop quoted titles, so flag-like text inside a title is not read as a flag.
+scan="$cmd"
+while [[ "$scan" =~ $title_re ]]; do
+  scan="${scan/"${BASH_REMATCH[0]}"/ }"
+done
+
+if [[ "$scan" =~ $file_re ]]; then
   f="${BASH_REMATCH[4]}"
   f="${f#[\"\']}"; f="${f%[\"\']}"
   [ "$f" = "-" ] && exit 0
@@ -55,9 +62,13 @@ if [[ "$cmd" =~ $file_re ]]; then
   [[ "$f" = /* ]] || f="${cwd:-.}/$f"
   [ -r "$f" ] || exit 0
   has_details "$(cat "$f")" || deny "$reason"
-elif [[ "$cmd" =~ $body_re ]]; then
-  has_details "$cmd" || deny "$reason"
-elif [ "$sub" = "create" ]; then
+elif [[ "$scan" =~ $body_re ]]; then
+  has_details "$cmd" && exit 0
+  # A heredoc body is literal text, so judge it. Any other $ expansion
+  # (a variable or $(cat file)) hides the body, so fail open.
+  [[ "$cmd" != *"<<"* && "$cmd" == *'$'* ]] && exit 0
+  deny "$reason"
+elif [ "$sub" = "create" ] && ! [[ "$scan" =~ $web_re ]]; then
   deny "$reason"
 fi
 exit 0
