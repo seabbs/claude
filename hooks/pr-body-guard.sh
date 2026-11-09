@@ -3,10 +3,9 @@
 # when the PR body has no <details><summary> block, so agent-written PR text
 # follows the pr-description skill (short opener, full text collapsed).
 #
-# Checks an inline --body/-b by scanning the command, and a --body-file/-F
-# by reading the file. `gh pr create` with no body at all (e.g. --fill) is
-# denied too. Fails OPEN when the body cannot be seen: missing jq, stdin
-# body (-F -), unreadable file, or parse error.
+# A heuristic: an inline --body is checked by scanning the whole command,
+# and only the first gh pr create/edit in a command is checked. Fails open
+# when the body cannot be read.
 set -u
 
 command -v jq >/dev/null 2>&1 || exit 0
@@ -38,11 +37,12 @@ reason="PR body must follow the pr-description skill: a short opener, then \
 the full agent-written text inside <details><summary>MODEL</summary> ... \
 </details>. Write the body to a file and pass it with --body-file, then retry."
 
-file_re="(--body-file|-F)(=|[[:space:]]+)(\"[^\"]*\"|'[^']*'|[^[:space:];&|]+)"
+file_re="(^|[[:space:]])(--body-file|-F)(=|[[:space:]]+)"
+file_re+="(\"[^\"]*\"|'[^']*'|[^[:space:];&|]+)"
 body_re="(^|[[:space:]])(--body|-b)(=|[[:space:]])"
 
 if [[ "$cmd" =~ $file_re ]]; then
-  f="${BASH_REMATCH[3]}"
+  f="${BASH_REMATCH[4]}"
   f="${f#[\"\']}"; f="${f%[\"\']}"
   [ "$f" = "-" ] && exit 0
   # Match the literal text the agent wrote, then expand it ourselves.
