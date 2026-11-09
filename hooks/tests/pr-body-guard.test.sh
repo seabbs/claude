@@ -57,6 +57,26 @@ expect allow "-F inside title is not a body file" \
   "gh pr create -t \"fix x-F y\" -F $tmp/good.md"
 expect deny "-F inside title with bad body" \
   "gh pr create -t \"fix x-F $tmp/good.md\" -F $tmp/bad.md"
+expect deny "spaced -F inside title with bad body" \
+  "gh pr create -t \"fix -F $tmp/good.md\" -F $tmp/bad.md"
+expect deny "spaced -F inside --title= with bad body" \
+  "gh pr create --title='fix -F $tmp/good.md' -F $tmp/bad.md"
+HOME=$tmp expect allow "tilde body-file" "gh pr create -t x -F ~/good.md"
+HOME=$tmp expect allow "\$HOME body-file" \
+  "gh pr create -t x -F \$HOME/good.md"
+HOME=$tmp expect deny "\${HOME} body-file without details" \
+  "gh pr create -t x -F \${HOME}/bad.md"
+expect deny "short -b without details" "gh pr create -t x -b \"Plain\""
+expect deny "--body= without details" "gh pr create -t x --body=\"Plain\""
+expect allow "body from a file substitution" \
+  "gh pr create -t x --body \"\$(cat $tmp/good.md)\""
+expect allow "body from a variable" "gh pr create -t x --body \"\$BODY\""
+expect deny "heredoc body without details" "gh pr create -t x --body \"\$(cat <<'EOF'
+Plain text
+EOF
+)\""
+expect allow "web form" "gh pr create -t x --web"
+expect allow "short web form" "gh pr create -t x -w"
 
 if [ "$fails" -ne 0 ]; then
   echo "$fails failed"
