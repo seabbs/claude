@@ -39,6 +39,7 @@ the full agent-written text inside <details><summary>MODEL</summary> ... \
 file_re="(^|[[:space:]])(--body-file|-F)(=|[[:space:]]+)"
 file_re+="(\"[^\"]*\"|'[^']*'|[^[:space:];&|]+)"
 body_re="(^|[[:space:]])(--body|-b)(=|[[:space:]])"
+dyn_re="(^|[[:space:]])(--body|-b)(=|[[:space:]]+)[\"']?[$]"
 web_re="(^|[[:space:]])(--web|-w)([[:space:]]|$)"
 title_re="(^|[[:space:]])(--title|-t)(=|[[:space:]]+)(\"[^\"]*\"|'[^']*')"
 
@@ -64,9 +65,9 @@ if [[ "$scan" =~ $file_re ]]; then
   has_details "$(cat "$f")" || deny "$reason"
 elif [[ "$scan" =~ $body_re ]]; then
   has_details "$cmd" && exit 0
-  # A heredoc body is literal text, so judge it. Any other $ expansion
-  # (a variable or $(cat file)) hides the body, so fail open.
-  [[ "$cmd" != *"<<"* && "$cmd" == *'$'* ]] && exit 0
+  # A heredoc body is literal text, so judge it. A body that starts with
+  # any other $ expansion (a variable or $(cat file)) is hidden, so fail open.
+  [[ "$cmd" != *"<<"* && "$scan" =~ $dyn_re ]] && exit 0
   deny "$reason"
 elif [ "$sub" = "create" ] && ! [[ "$scan" =~ $web_re ]]; then
   deny "$reason"
