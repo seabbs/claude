@@ -19,7 +19,7 @@ Always respond in UK English
 - Avoid `cd /path &&` before commands — gh works from worktrees without cd, use `git -C` for other repos, and `gh -R` for cross-repo operations
 - Never pipe allowed commands through head/tail/grep/wc — piped commands don't match allow-list patterns and trigger permission prompts. Use built-in flags instead (e.g. `gh issue view --json`, `git log -n`)
 - Commit and push changes before creating PRs
-- Create GitHub issues for follow-up work discovered during implementation
+- Create GitHub issues for follow-up work discovered during implementation, written with the `issue-description` skill (problem, suspected cause and proposed fix up front, detail collapsed)
 - When creating issues or PRs as bot, add a note at the end: "This was opened by a bot. Please ping @seabbs for any questions."
 - Write every PR description with the `pr-description` skill: a short opener (about 125 chars), an optional screenshot, then the full agent text inside `<details><summary>MODEL [effort]</summary>`. Pass the body with `--body-file`. A PreToolUse hook (`~/.claude/hooks/pr-body-guard.sh`) blocks `gh pr create`/`gh pr edit` bodies without it
 - Run coderabbit review with: coderabbit review --plain
