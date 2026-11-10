@@ -288,6 +288,11 @@
           {
             "type": "command",
             "command": "$HOME/code/seabbs/dotfiles/scripts/agent-session-track.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME/.claude/hooks/review-guard.sh\"",
+            "timeout": 40
           }
         ]
       }

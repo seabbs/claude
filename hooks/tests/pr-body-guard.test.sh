@@ -77,6 +77,18 @@ expect deny "heredoc body without details" "gh pr create -t x --body \"\$(cat <<
 Plain text
 EOF
 )\""
+long="$(printf 'Evidence line %s.\n' $(seq 1 80))"
+printf '%s\n' "$long" > "$tmp/long.md"
+printf '## Evidence\n\nShort.\n' > "$tmp/heading.md"
+expect allow "short pr comment" \
+  "gh pr comment 12 --body \"CI fails on main too, see run 5.\""
+expect allow "re-review request" "gh pr comment 12 -b \"@seabbs-review-bot\""
+expect deny "long pr comment from file" "gh pr comment 12 --body-file $tmp/long.md"
+expect deny "pr comment with a heading" "gh pr comment 12 -F $tmp/heading.md"
+expect deny "long inline pr comment" "gh pr comment 12 --body \"$long\""
+expect allow "pr comment from a variable" "gh pr comment 12 --body \"\$MSG\""
+expect allow "issue comment is not checked" \
+  "gh issue comment 12 --body-file $tmp/long.md"
 expect allow "web form" "gh pr create -t x --web"
 expect allow "short web form" "gh pr create -t x -w"
 
